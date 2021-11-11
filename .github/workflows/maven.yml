@@ -31,5 +31,5 @@ jobs:
         echo "$VPS_PRI" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -p 65221 113.31.104.98 >> ~/.ssh/known_hosts
-        scp -i ~/.ssh/id_rsa -P 65221 * root@113.31.104.98:/tmp/
+        scp -i ~/.ssh/id_rsa -P 65221 -r * root@113.31.104.98:/tmp/
 
