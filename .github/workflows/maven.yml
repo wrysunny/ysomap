@@ -22,13 +22,16 @@ jobs:
         java-version: 1.8
     - name: Build with Maven
       run: mvn -B package -DskipTests --file pom.xml
-    - name: Save the image
-      uses: actions/docker/cli@master
-      with:
-        args: save my-image:latest
-    - name: Upload to release
-      uses: JasonEtco/upload-to-release@master
-      with:
-        args: my-image.tar
+    - name: Configuration environment
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        HEXO_DEPLOY_PRI: ${{secrets.HEXO_DEPLOY_PRI}}
+      run: |
+        sudo timedatectl set-timezone "Asia/Shanghai"
+        mkdir -p ~/.ssh/
+        echo "$HEXO_DEPLOY_PRI" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+        git config --global user.name $GIT_USER
+        git config --global user.email $GIT_EMAIL
+        cp *.jar cli/
+
