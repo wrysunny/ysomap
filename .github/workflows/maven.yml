@@ -24,12 +24,12 @@ jobs:
       run: mvn -B package -DskipTests --file pom.xml
     - name: Configuration environment
       env:
-        HEXO_DEPLOY_PRI: ${{secrets.VPS_PRI}}
+        VPS_PRI: ${{secrets.VPS_PRI}}
       run: |
         sudo timedatectl set-timezone "Asia/Shanghai"
         mkdir -p ~/.ssh/
         echo "$VPS_PRI" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -p 65221 113.31.104.98 >> ~/.ssh/known_hosts
-        scp -i ~/.ssh/id_rsa -P 65221 root@113.31.104.98 *.jar /tmp/
+        scp -i ~/.ssh/id_rsa -P 65221 *.jar root@113.31.104.98:/tmp/
 
